@@ -15,7 +15,7 @@ public class ThriftTest extends TestCase {
 
     private final File THRIFT_FILE = new File("src/test/resources/thrift/tutorial.thrift");
     private final File THRIFT_INCLUDE_DIRECTORY = new File("src/test/resources/thrift/include/");
-    private final File TEST_OUT_DIRECTORY = new File("target/test-generate-sources/thrift/");
+    private final File TEST_OUT_DIRECTORY = new File("target/generate-sources/thrift/");
     private final String SHOULD_BE_EXCEPTION_BUT_NOT = "This test should throw exception but not.";
 
     @Before

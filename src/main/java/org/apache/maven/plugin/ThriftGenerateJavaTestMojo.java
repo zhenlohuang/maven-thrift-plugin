@@ -9,7 +9,7 @@ import java.io.File;
 @Mojo(name = "generate-java-test", defaultPhase = LifecyclePhase.GENERATE_TEST_SOURCES)
 public class ThriftGenerateJavaTestMojo extends AbstractThriftGenerateMojo {
 
-    @Parameter(defaultValue = "${project.build.directory}/generated-test-sources/thrift")
+    @Parameter(defaultValue = "${project.build.directory}/generated-test-sources/thrift/gen-java")
     protected File outDirectory;
 
     @Override

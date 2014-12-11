@@ -1,9 +1,8 @@
 package org.apache.maven.plugin;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.maven.plugin.exception.ThriftCompileException;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.project.MavenProject;
-import org.apache.maven.project.MavenProjectHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,65 +14,63 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public abstract class AbstractThriftGenerateMojo extends AbstractMojo {
 
-//    @Parameter(property = "project", defaultValue = "${project}", required = true)
-//    protected MavenProject project;
-//
-//    protected MavenProjectHelper projectHelper;
-
-    @Parameter(property = "thriftExecutable", defaultValue = "thrift")
+    @Parameter(defaultValue = "thrift")
     protected String thriftExecutable;
 
-    @Parameter(property = "thriftFile", required = true)
+    @Parameter(required = true)
     protected File thriftFile;
 
-    @Parameter(property = "recurse")
+    @Parameter(defaultValue = "true")
     protected boolean recurse;
 
-    @Parameter(property = "includeDirectory")
+    @Parameter
     protected File includeDirectory;
 
-    @Parameter(property = "includeDirectories")
+    @Parameter
     protected List<File> includeDirectories;
-
-    @Parameter(defaultValue = "${project.build.directory}/generated-sources/thrift")
-    protected File outDirectory;
-
-    @Parameter(property = "debug", defaultValue = "false")
-    protected boolean debug;
 
     @Override
     public final void execute() throws MojoExecutionException, MojoFailureException {
         checkParameter();
-        if (!outDirectory.exists()) {
+        if (!getOutDirectory().exists()) {
             try {
-                FileUtils.forceMkdir(outDirectory);
+                FileUtils.forceMkdir(getOutDirectory());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
+        getLog().info( "Thrift Parameters:"  + "\n"
+                + "thriftExecutable: " + thriftExecutable + "\n"
+                + "thriftFile: " + thriftFile + "\n"
+                + "recurse: " + recurse + "\n"
+                + "includeDirectories: " + includeDirectories + "\n"
+                + "generator: " + getGenerator() + "\n"
+                + "outDirectory: " + getOutDirectory());
         Thrift thrift = new Thrift()
                 .setThriftExecutable(thriftExecutable)
                 .setThriftFile(thriftFile)
                 .setRecurse(recurse)
                 .setIncludeDirectories(includeDirectories)
                 .setGenerator(getGenerator())
-                .setOutDirectory(outDirectory);
-        // TODO: refactoring
-        try {
-            int result = thrift.compile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                .setOutDirectory(getOutDirectory());
 
+        int result = 0;
+        try {
+            result = thrift.compile();
+        } catch (Exception e) {
+            new ThriftCompileException("Thrift compile failed.");
+        }
+        if (result != 0) {
+            new ThriftCompileException("Thrift compile failed.");
+        }
     }
 
     protected abstract String getGenerator();
 
+    protected abstract File getOutDirectory();
+
     private void checkParameter() {
 
-//        checkNotNull(project, "project should not be null");
-//        checkNotNull(projectHelper, "projectHelper should not be null");
         checkNotNull(thriftExecutable, "thriftExecutable should not be null.");
         checkNotNull(thriftFile, "thriftFile should not be null.");
         checkArgument(thriftFile.exists(), thriftFile +" not found.");
@@ -88,9 +85,9 @@ public abstract class AbstractThriftGenerateMojo extends AbstractMojo {
                 checkArgument(includeDir.isDirectory(), includeDir + " is not a directory.");
             }
         }
-        checkNotNull(outDirectory, "outDirectory should not be null.");
-        if (outDirectory.exists()) {
-            checkArgument(outDirectory.isDirectory(), outDirectory + " is not a directory.");
+        checkNotNull(getOutDirectory(), "outDirectory should not be null.");
+        if (getOutDirectory().exists()) {
+            checkArgument(getOutDirectory().isDirectory(), getOutDirectory() + " is not a directory.");
         }
     }
 }

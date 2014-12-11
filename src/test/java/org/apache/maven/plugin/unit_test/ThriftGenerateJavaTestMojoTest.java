@@ -1,10 +1,8 @@
 package org.apache.maven.plugin.unit_test;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.maven.plugin.ThriftGenerateJavaMojo;
 import org.apache.maven.plugin.ThriftGenerateJavaTestMojo;
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -14,10 +12,9 @@ public class ThriftGenerateJavaTestMojoTest extends AbstractMojoTestCase {
 
     private final String GEN_JAVA_PLUGIN_CONFIG_PATH = "src/test/resources/generate-java-test-config/plugin-test-config.xml";
     private final String GEN_JAVA_WITHOUT_RECURSE_PLUGIN_CONFIG_PATH = "src/test/resources/generate-java-test-config/plugin-test-config-without-recurse.xml";
-    private final File TEST_OUT_DIRECTORY = new File(getBasedir(), "target/generate-test-sources/thrift/");
+    private final File TEST_OUT_DIRECTORY = new File(getBasedir(), "target/generate-test-sources/thrift/gen-java");
 
     @Override
-    @Before
     protected void setUp() throws Exception {
         super.setUp();
         try {

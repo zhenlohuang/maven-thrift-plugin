@@ -1,11 +1,7 @@
 package org.apache.maven.plugin.exception;
 
 
-public class ThriftCompileException extends RuntimeException{
-
-    public ThriftCompileException() {
-        super();
-    }
+public class ThriftCompileException extends Exception {
 
     public ThriftCompileException(String message) {
         super(message);
@@ -15,14 +11,7 @@ public class ThriftCompileException extends RuntimeException{
         super(message, cause);
     }
 
-    public ThriftCompileException(Throwable cause) {
-        super(cause);
+    public ThriftCompileException(String message, Exception cause) {
+        super(message, cause);
     }
-
-    protected ThriftCompileException(String message, Throwable cause,
-                               boolean enableSuppression,
-                               boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
-
 }

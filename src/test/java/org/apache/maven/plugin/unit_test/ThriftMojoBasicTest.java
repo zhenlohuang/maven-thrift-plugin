@@ -14,7 +14,7 @@ public class ThriftMojoBasicTest extends AbstractMojoTestCase {
     private final String BASIC_TEST_PLUGIN_CONFIG_PATH = "src/test/resources/basic-test/plugin-test-config.xml";
     private final File THRIFT_FILE = new File(getBasedir(), "src/test/resources/thrift/tutorial.thrift");
     private final File THRIFT_INCLUDE_DIRECTORY = new File(getBasedir(), "src/test/resources/thrift/include/");
-    private final File TEST_OUT_DIRECTORY = new File(getBasedir(), "target/test-generate-sources/thrift/");
+    private final File TEST_OUT_DIRECTORY = new File(getBasedir(), "target/generate-sources/thrift/gen-java");
     private final File NO_EXISTED_FILE = new File(getBasedir(), "no_existed_file.thrift");
     private final File NO_EXISTED_DIRECTORY = new File(getBasedir(), "no_existed_directory");
     private final String SHOULD_BE_EXCEPTION_BUT_NOT = "This test should throw exception but not.";
@@ -43,11 +43,10 @@ public class ThriftMojoBasicTest extends AbstractMojoTestCase {
         includeDirectories.add(THRIFT_INCLUDE_DIRECTORY);
         assertEquals(includeDirectories, getVariableValueFromObject(mojo, "includeDirectories"));
         assertEquals(TEST_OUT_DIRECTORY, getVariableValueFromObject(mojo, "outDirectory"));
-        assertEquals(true, getVariableValueFromObject(mojo, "debug"));
     }
 
     @Test
-    public void testThriftExecutableParameterCheck() throws Exception {
+    public void testThriftExecutableParameterChecking() throws Exception {
         File testPom = new File(getBasedir(), BASIC_TEST_PLUGIN_CONFIG_PATH);
         ThriftGenerateJavaMojo mojo = (ThriftGenerateJavaMojo)lookupMojo("generate-java", testPom);
 
@@ -61,7 +60,7 @@ public class ThriftMojoBasicTest extends AbstractMojoTestCase {
     }
 
     @Test
-    public void testThriftFileParameterCheck() throws Exception {
+    public void testThriftFileParameterChecking() throws Exception {
         File testPom = new File(getBasedir(), BASIC_TEST_PLUGIN_CONFIG_PATH);
         ThriftGenerateJavaMojo mojo = (ThriftGenerateJavaMojo)lookupMojo("generate-java", testPom);
 
@@ -91,7 +90,7 @@ public class ThriftMojoBasicTest extends AbstractMojoTestCase {
     }
 
     @Test
-    public void testIncludeDirectoryParameterCheck() throws Exception {
+    public void testIncludeDirectoryParameterChecking() throws Exception {
         File testPom = new File(getBasedir(), BASIC_TEST_PLUGIN_CONFIG_PATH);
         ThriftGenerateJavaMojo mojo = (ThriftGenerateJavaMojo)lookupMojo("generate-java", testPom);
 
@@ -113,7 +112,7 @@ public class ThriftMojoBasicTest extends AbstractMojoTestCase {
     }
 
     @Test
-    public void testIncludeDirectoriesParameterCheck() throws Exception {
+    public void testIncludeDirectoriesParameterChecking() throws Exception {
         File testPom = new File(getBasedir(), BASIC_TEST_PLUGIN_CONFIG_PATH);
         ThriftGenerateJavaMojo mojo = (ThriftGenerateJavaMojo)lookupMojo("generate-java", testPom);
 
@@ -139,7 +138,7 @@ public class ThriftMojoBasicTest extends AbstractMojoTestCase {
     }
 
     @Test
-    public void testOutDirectoryParameterCheck() throws Exception {
+    public void testOutDirectoryParameterChecking() throws Exception {
         File testPom = new File(getBasedir(), BASIC_TEST_PLUGIN_CONFIG_PATH);
         ThriftGenerateJavaMojo mojo = (ThriftGenerateJavaMojo)lookupMojo("generate-java", testPom);
 
